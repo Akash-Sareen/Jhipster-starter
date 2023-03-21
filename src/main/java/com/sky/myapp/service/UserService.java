@@ -8,6 +8,7 @@ import com.sky.myapp.repository.PersistentTokenRepository;
 import com.sky.myapp.repository.UserRepository;
 import com.sky.myapp.repository.search.UserSearchRepository;
 import com.sky.myapp.security.AuthoritiesConstants;
+import com.sky.myapp.security.PrivilegesConstants;
 import com.sky.myapp.security.SecurityUtils;
 import com.sky.myapp.service.dto.AdminUserDTO;
 import com.sky.myapp.service.dto.UserDTO;
@@ -140,7 +141,7 @@ public class UserService {
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         Set<Authority> authorities = new HashSet<>();
-        authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
+        authorityRepository.findById(PrivilegesConstants.PRIVILEGE_USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
         userSearchRepository.save(newUser);

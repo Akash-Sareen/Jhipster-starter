@@ -10,6 +10,7 @@ import com.sky.myapp.domain.User;
 import com.sky.myapp.repository.UserRepository;
 import com.sky.myapp.repository.search.UserSearchRepository;
 import com.sky.myapp.security.AuthoritiesConstants;
+import com.sky.myapp.security.PrivilegesConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
  * Integration tests for the {@link UserResource} REST controller.
  */
 @AutoConfigureMockMvc
-@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+@WithMockUser(authorities = PrivilegesConstants.PRIVILEGE_ADMIN)
 @IntegrationTest
 class PublicUserResourceIT {
 
@@ -82,6 +83,6 @@ class PublicUserResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
-            .andExpect(jsonPath("$").value(hasItems(AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN)));
+            .andExpect(jsonPath("$").value(hasItems(PrivilegesConstants.PRIVILEGE_USER, PrivilegesConstants.PRIVILEGE_ADMIN)));
     }
 }

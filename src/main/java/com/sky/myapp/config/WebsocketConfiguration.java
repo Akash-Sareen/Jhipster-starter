@@ -1,6 +1,7 @@
 package com.sky.myapp.config;
 
 import com.sky.myapp.security.AuthoritiesConstants;
+import com.sky.myapp.security.PrivilegesConstants;
 import java.security.Principal;
 import java.util.*;
 import org.springframework.context.annotation.Bean;
@@ -80,7 +81,7 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
                 Principal principal = request.getPrincipal();
                 if (principal == null) {
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                    authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
+                    authorities.add(new SimpleGrantedAuthority(PrivilegesConstants.PRIVILEGE_ANONYMOUS));
                     principal = new AnonymousAuthenticationToken("WebsocketConfiguration", "anonymous", authorities);
                 }
                 return principal;

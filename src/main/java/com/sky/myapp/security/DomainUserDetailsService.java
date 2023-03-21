@@ -1,6 +1,7 @@
 package com.sky.myapp.security;
 
 import com.sky.myapp.domain.Authority;
+import com.sky.myapp.domain.Privilege;
 import com.sky.myapp.domain.User;
 import com.sky.myapp.repository.UserRepository;
 import java.util.*;
@@ -51,12 +52,14 @@ public class DomainUserDetailsService implements UserDetailsService {
         if (!user.isActivated()) {
             throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
         }
-        List<GrantedAuthority> grantedAuthorities = user
+
+        Set<String> privileges = new HashSet<>();
+        user
             .getAuthorities()
-            .stream()
-            .map(Authority::getName)
-            .map(SimpleGrantedAuthority::new)
-            .collect(Collectors.toList());
+            .forEach(authority -> privileges.addAll(authority.getPrivileges().stream().map(Privilege::getName).collect(Collectors.toSet()))
+            );
+
+        List<GrantedAuthority> grantedAuthorities = privileges.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), grantedAuthorities);
     }
 }
