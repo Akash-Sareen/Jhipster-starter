@@ -2,6 +2,8 @@ package com.sky.myapp.service.dto;
 
 import com.sky.myapp.config.Constants;
 import com.sky.myapp.domain.Authority;
+import com.sky.myapp.domain.Company;
+import com.sky.myapp.domain.Privilege;
 import com.sky.myapp.domain.User;
 import java.io.Serializable;
 import java.time.Instant;
@@ -51,6 +53,8 @@ public class AdminUserDTO implements Serializable {
 
     private Set<String> authorities;
 
+    private Company company;
+
     public AdminUserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -68,7 +72,10 @@ public class AdminUserDTO implements Serializable {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
+        // TODO: Update the UI permisions code first
+        //        this.authorities = user.getAuthorities().stream().map(auth -> auth.getPrivileges().stream().map(Privilege::getName).collect(Collectors.joining(","))).collect(Collectors.toSet());
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
+        this.company = user.getCompany();
     }
 
     public String getId() {
@@ -175,22 +182,33 @@ public class AdminUserDTO implements Serializable {
         this.authorities = authorities;
     }
 
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
     // prettier-ignore
+
     @Override
     public String toString() {
         return "AdminUserDTO{" +
-            "login='" + login + '\'' +
+            "id='" + id + '\'' +
+            ", login='" + login + '\'' +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +
             ", imageUrl='" + imageUrl + '\'' +
             ", activated=" + activated +
             ", langKey='" + langKey + '\'' +
-            ", createdBy=" + createdBy +
+            ", createdBy='" + createdBy + '\'' +
             ", createdDate=" + createdDate +
             ", lastModifiedBy='" + lastModifiedBy + '\'' +
             ", lastModifiedDate=" + lastModifiedDate +
             ", authorities=" + authorities +
-            "}";
+            ", company=" + company +
+            '}';
     }
 }

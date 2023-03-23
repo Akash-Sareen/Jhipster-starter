@@ -80,6 +80,8 @@ public class User extends AbstractAuditingEntity<String> implements Serializable
     @JsonIgnore
     private Set<Authority> authorities = new HashSet<>();
 
+    private Company company;
+
     public String getId() {
         return id;
     }
@@ -185,6 +187,14 @@ public class User extends AbstractAuditingEntity<String> implements Serializable
         this.authorities = authorities;
     }
 
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -203,17 +213,24 @@ public class User extends AbstractAuditingEntity<String> implements Serializable
     }
 
     // prettier-ignore
+
     @Override
     public String toString() {
         return "User{" +
-            "login='" + login + '\'' +
+            "id='" + id + '\'' +
+            ", login='" + login + '\'' +
+            ", password='" + password + '\'' +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated='" + activated + '\'' +
+            ", activated=" + activated +
             ", langKey='" + langKey + '\'' +
+            ", imageUrl='" + imageUrl + '\'' +
             ", activationKey='" + activationKey + '\'' +
-            "}";
+            ", resetKey='" + resetKey + '\'' +
+            ", resetDate=" + resetDate +
+            ", authorities=" + authorities +
+            ", company=" + company +
+            '}';
     }
 }

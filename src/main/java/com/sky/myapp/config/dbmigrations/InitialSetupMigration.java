@@ -2,10 +2,12 @@ package com.sky.myapp.config.dbmigrations;
 
 import com.sky.myapp.config.Constants;
 import com.sky.myapp.domain.Authority;
+import com.sky.myapp.domain.Company;
 import com.sky.myapp.domain.Privilege;
 import com.sky.myapp.domain.User;
 import com.sky.myapp.security.AuthoritiesConstants;
 import com.sky.myapp.security.PrivilegesConstants;
+import com.sky.myapp.security.TenantContext;
 import io.mongock.api.annotations.ChangeUnit;
 import io.mongock.api.annotations.Execution;
 import io.mongock.api.annotations.RollbackExecution;
@@ -71,8 +73,25 @@ public class InitialSetupMigration {
     }
 
     private void addUsers(Authority userAuthority, Authority adminAuthority) {
+        Company company = new Company();
+        company.setName("CUSTOMER1");
+        company.setId("1");
+        template.save(company);
+
+        company = new Company();
+        company.setName("CUSTOMER2");
+        company.setId("2");
+        template.save(company);
+
         User user = createUser(userAuthority);
+        user.setCompany(company);
         template.save(user);
+
+        company = new Company();
+        company.setName("ADMIN_CONSOLE");
+        company.setId("0");
+        template.save(company);
+
         User admin = createAdmin(adminAuthority, userAuthority);
         template.save(admin);
     }
